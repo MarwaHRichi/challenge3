@@ -1,0 +1,74 @@
+<form class="container" #userForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+    {{userForm.form.valid}}
+    <fieldset class="fieldset">
+        <legend class="mb-5 mt-4">Informations générales</legend>
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">Nom</label>
+            <div class="col-sm-6">
+                <input type="text" required class="form-control" minlength="3"
+                    [class.is-invalid]="name.invalid && name.touched" name="name" #name="ngModel" value=""
+                    [(ngModel)]="userModel.name">
+                <small [style.color]="'red'" [class.d-none]="name.valid || name.untouched">Name is required</small>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="input" class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-6">
+                <input type="email" class="form-control" pattern="[A-Za-z]+.[A-Za-z]+@[A-Za-z]{3}"
+        [class.is-invalid]="email.invalid && email.touched" value="" required name="email" #email="ngModel" [(ngModel)]="userModel.email">
+                <!--<small [style.color]="'red'" [class.d-none]="email.valid || email.untouched">Email is required</small>
+              <small class="text-warning" *ngIf="email.errors?.['pattern']"> email must contain @</small>-->
+                <div *ngIf="email.errors && (email.valid || email.touched)">
+                    <small class="text-danger" *ngIf="email.errors?.['required']"> email is required.</small>
+                    <small class="text-warning" *ngIf="email.errors?.['pattern']"> email must contain @</small>
+                </div>
+            </div>
+        </div>
+
+        <legend class="mb-5 mt-4">Informations de payement</legend>
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">Type de carte</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" required value=""
+                    [class.is-invalid]="typecarte.invalid && typecarte.touched" name="typecarte" #typecarte="ngModel"
+                    [(ngModel)]="userModel.typecarte">
+                <small [style.color]="'red'" [class.d-none]="typecarte.valid || typecarte.untouched">le type de carte
+                    est obligatoire</small>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">Numéro carte</label>
+            <div class="col-sm-6">
+                <input type="number" class="form-control" value="" pattern="^\d{16}$" minlength="20" required
+                    [class.is-invalid]="numerocarte.invalid && numerocarte.touched" name="numerocarte"
+                    #numerocarte="ngModel" [(ngModel)]="userModel.numerocarte">
+
+                <div *ngIf="numerocarte.errors && (numerocarte.valid || numerocarte.touched)">
+                    <small class="text-danger" *ngIf="numerocarte.errors?.['required']"> le numéro est
+                        obligatoire.</small>
+                    <small class="text-warning" *ngIf="numerocarte.errors?.['pattern']"> le numéro contient 16
+                        chiffres.</small>
+                    <!-- <small class="text-success" *ngIf="numerocarte.errors?.['minlength']"> le numéro.</small> -->
+
+                </div>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">Date expiration</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" required value="" name="dateexpiration"
+                    #dateexpiration="ngModel" [(ngModel)]="userModel.dateexpiration">
+                    <small class="text-danger" [class.d-none]="dateexpiration.valid || dateexpiration.untouched">la date
+                        est obligatoire</small>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">Code</label>
+            <div class="col-sm-6">
+                <input type="number" class="form-control" required value="" name="code" #code="ngModel"
+                    [(ngModel)]="userModel.code">
+            </div>
+        </div>
+    </fieldset>
+    <button [disabled]="userForm.form.invalid" class="btn btn-primary" type="submit">Submit</button>
+</form>
